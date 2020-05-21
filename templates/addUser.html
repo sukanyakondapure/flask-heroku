@@ -1,0 +1,181 @@
+{% extends 'layouts/base.html'%}
+{% block content %}
+<div class="span9">
+    <div class="content">
+
+        <div class="module">
+            <div class="module-head">
+                <h3>Add User</h3>
+                <a href="/listUsers" class="btn btn-small btn-primary" style="float: right; margin-top: -23px;">List
+                    Users</a>
+            </div>
+            <div class="module-body">
+                <br />
+                <form class="form-horizontal row-fluid" action="/adduser" method="POST">
+                    
+                    <div class="control-group">
+                        <label class="control-label" for="basicinput">Name:</label>
+                        <div class="controls">
+                          
+                            <input type="text" name="name" id="name" placeholder="Enter name here..." class="span8">
+                           
+
+                        </div>
+                    </div>
+
+                   
+                        <div class="control-group">
+                            <label class="control-label" for="basicinput">Email ID:</label>
+                            <div class="controls">
+                                <input type="text" name="email" id="email" placeholder="Enter email here..."
+                                    class="span8">
+                            </div>
+                        </div>
+
+
+                        <div class="control-group">
+                            <label class="control-label" for="basicinput">Mobile No:</label>
+                            <div class="controls">
+                                <input type="text" id="mobile" name="mobile" placeholder="Enter mobile no here..."
+                                    class="span8">
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="basicinput">Country</label>
+                            <div class="controls">
+                                <select tabindex="1" data-placeholder="Select Country.." name="country" id="country"
+                                    class="span8 country">
+                                    <option value="">Select here..</option>
+                                    {%for country in countries%}
+                                    <option value="{{country.id}}">{{country.name}}</option>
+                                    {%endfor%}
+                                </select>
+                                
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="basicinput">State</label>
+                            <div class="controls">
+                                <select tabindex="1" data-placeholder="Select State.." name="state" id="state"
+                                    class="span8">
+                                    <option value="">Select here..</option>
+                                    {%for state in states%}
+                                    <option value="{{state.id}}">{{state.name}}</option>
+                                    {%endfor%}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="basicinput">City</label>
+                            <div class="controls">
+                               
+                                <select tabindex="1" data-placeholder="Select city.." name="city" id="city"
+                                    class="span8">
+                                    <option value="">Select here..</option>
+                                    {%for city in cities %}
+                                    <option value="{{city.id}}">{{city.name}}</option>
+                                    {% endfor %}
+                                </select>
+                               
+
+
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Gender:</label>
+                            <div class="controls">
+                               
+                                <label class="radio inline">
+                                    <input type="radio" name="gender" id="gender" value="1">
+                                    Male
+                                </label>
+                                <label class="radio inline">
+                                    <input type="radio" name="gender" id="gender" value="2">
+                                    Female
+                                </label>
+                              
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Hobbies</label>
+                            <div class="controls">
+                                
+                                <label class="checkbox">
+                                    <input type="checkbox" id="hobbies" name="hobbies[]" value="1">
+                                    Playing chess
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" id="hobbies" name="hobbies[]" value="2">
+                                    Gaming
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" id="hobbies" name="hobbies[]" value="3">
+                                    Browsing on internet
+                                </label>
+                            
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="basicinput">Address:</label>
+                            <div class="controls">
+                               
+                                <textarea class="span8" name="address" id="address" rows="5"></textarea>
+                                
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="controls">
+
+                                <button type="submit" class="btn btn-small btn-success">Submit</button>
+                                &nbsp;&nbsp;
+                                <button type="submit" class="btn btn-small btn-danger">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+        </div>
+
+    </div>
+    <!--/.content-->
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+    (function ($) {
+        $("select#country").on("change", function () {
+            var cid = $(this).val();
+            // alert(cid);
+            if (cid) {
+                $.ajax({
+                    method: "GET",
+                    url: "/states/" + cid,
+                })
+                    .done(function (msg) {
+                        $("select#state").html(msg);
+                        console.log(msg)
+                    });
+            }
+        });
+        $("select#state").on("change", function () {
+            var cid = $(this).val();
+            if (cid) {
+                $.ajax({
+                    method: "GET",
+                    url: "/cities/" + cid,
+                })
+                    .done(function (msg) {
+                        $("select#city").html(msg);
+                    });
+            }
+        });
+    })(jQuery);
+</script>
+{% endblock scripts %}

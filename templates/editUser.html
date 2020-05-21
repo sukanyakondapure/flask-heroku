@@ -1,0 +1,204 @@
+{% extends 'layouts/base.html'%}
+{% block content %}
+<div class="span9">
+    <div class="content">
+
+        <div class="module">
+            <div class="module-head">
+                <h3>Add User</h3>
+                <a href="/listUsers" class="btn btn-small btn-primary" style="float: right; margin-top: -23px;">List
+                    Users</a>
+            </div>
+            <div class="module-body">
+                <br />
+                <form class="form-horizontal row-fluid" action="{{url_for('edituser', id=user.id)}}" method="POST">
+                    <div class="control-group">
+                        <label class="control-label" for="basicinput">Name:</label>
+                        <div class="controls">
+                            <input type="text" name="name" value="{{user.name}}" id="name"
+                                placeholder="Enter name here..." class="span8">
+                        </div>
+                    </div>
+
+                    <form class="form-horizontal row-fluid">
+                        <div class="control-group">
+                            <label class="control-label" for="basicinput">Email ID:</label>
+                            <div class="controls">
+                                <input type="text" name="email" id="email" value="{{user.email}}"
+                                    placeholder="Enter email here..." class="span8">
+                            </div>
+                        </div>
+
+
+                        <div class="control-group">
+                            <label class="control-label" for="basicinput">Mobile No:</label>
+                            <div class="controls">
+                                <input type="text" id="mobile" name="mobile" value="{{user.mobile}}"
+                                    placeholder="Enter mobile no here..." class="span8">
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="basicinput">Country</label>
+                            <div class="controls">
+                                <select tabindex="1" data-placeholder="Select Country.." name="country" id="country"
+                                    class="span8 country">
+                                    <option value="">Select here..</option>
+                                    {%for country in countries%}
+                                    <option value="{{country.id}}">{{country.name}}</option>
+                                    {%endfor%}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="basicinput">State</label>
+                            <div class="controls">
+                                <select name="state" id="state" tabindex="1" data-placeholder="Select here.."
+                                    class="span8 state">
+                                    <option value="">Select here..</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="control-group">
+                            <label class="control-label" for="basicinput">City</label>
+                            <div class="controls">
+                                <select name="city" id="city" tabindex="1" data-placeholder="Select here.."
+                                    class="span8 city">
+                                    <option value="">Select here..</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Gender:</label>
+                            <div class="controls">
+                                <label class="radio inline">
+                                    <input type="radio" name="gender" id="gender" value="1" {%if user.gender == 1  %}
+                                        checked="" {%endif%}>
+                                    Male
+                                </label>
+                                <label class="radio inline">
+                                    <input type="radio" name="gender" id="gender" value="2" {%if user.gender == 2  %}
+                                        checked="" {%endif%}>
+                                    Female
+                                </label>
+
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Hobbies</label>
+                            <div class="controls">
+
+                                <label class="checkbox">
+
+                                    <input type="checkbox" id="chess" name="hobbies[]" {%if user.hobbies == 1  %}
+                                        checked="" {%endif%} value="1">
+
+                                    Playing chess
+                                </label>
+                                <label class="checkbox">
+
+                                    <input type="checkbox" id="gaming" name="hobbies[]" value="2">
+
+                                    Gaming
+                                </label>
+                                <label class="checkbox">
+
+                                    <input type="checkbox" id="internet" name="hobbies[]" value="3">
+
+                                    Browsing on internet
+                                </label>
+
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="basicinput">Address:</label>
+                            <div class="controls">
+                                <textarea class="span8" name="address" id="address" rows="5">{{user.address}}</textarea>
+                            </div>
+                        </div>
+                        <input type="hidden" id="hid1" value="{{user.hobbies}}" />
+                        <div class="control-group">
+                            <div class="controls">
+
+                                <button type="submit" class="btn btn-small btn-success">Submit</button>
+                                &nbsp;&nbsp;
+                                <button type="submit" class="btn btn-small btn-danger">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+        </div>
+
+    </div>
+    <!--/.content-->
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+    (function ($) {
+        // var state='{{user.state_id}}'
+        // alert(state);
+        
+           
+        
+
+        $("select#country").on("change", function () {
+            var cid = $(this).val();
+            // alert(cid);
+            if (cid) {
+                $.ajax({
+                    method: "GET",
+                    url: "/states/" + cid,
+                    async: false
+                })
+                    .done(function (msg) {
+                        $("select#state").html(msg);
+                        console.log(msg)
+                    });
+            }
+        });
+        $("select#state").on("change", function () {
+            var cid = $(this).val();
+            if (cid) {
+                $.ajax({
+                    method: "GET",
+                    url: "/cities/" + cid,
+                    async: false
+                })
+                    .done(function (msg) {
+                        $("select#city").html(msg);
+                    });
+            }
+        });
+        $(".country").val('{{user.country_id}}'); 
+        $("select.country").trigger("change");
+        $("select.state").val('{{user.state_id}}').trigger("change");
+        $("select.city").val('{{user.city_id}}'); 
+        
+           var hobbies='{{user.hobbies}}';
+        //    alert(hobbies);
+        
+        for (i = 0; i < hobbies.length; i++) {
+            if (hobbies[i] == "1") {
+                $('#chess').prop("checked", true)
+            }
+            if (hobbies[i] == "2") {
+                $('#gaming').prop("checked", true)
+            }
+            if (hobbies[i] == "3") {
+                $('#internet').prop("checked", true)
+            }
+        }
+        
+        
+
+    })(jQuery);
+</script>
+{% endblock scripts %}

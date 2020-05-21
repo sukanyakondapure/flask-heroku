@@ -1,0 +1,62 @@
+{% extends 'layouts/base.html'%}
+{% block content %}
+<div class="span9">
+    <div class="content">
+
+        <div class="module">
+            <div class="module-head">
+                <h3>Send Email</h3>
+                <a href="/listuser" class="btn btn-small btn-primary" style="float: right; margin-top: -23px;">List
+                    Users</a>
+            </div>
+            <div class="module-body">
+                <br />
+                <form class="form-horizontal row-fluid" action="{{url_for('send')}}" method="POST">
+                    
+                    <div class="control-group">
+                        <label class="control-label" for="basicinput">Enter Your Name</label>
+                        <div class="controls">
+                          
+                            
+                        <textarea class="span8" name="name" ></textarea>
+                           
+
+                        </div>
+                    </div>
+
+                   
+                        <div class="control-group">
+                            <label class="control-label" for="basicinput">Enter Your Email</label>
+                            <div class="controls">
+                                <textarea class="span8" name="email"></textarea>
+                            </div>
+                        </div>
+                           
+
+                        <div class="control-group">
+                            <label class="control-label" for="basicinput">Enter Your Message</label>
+                            <div class="controls">
+                               
+                                <textarea class="span8" name="message" id="message" rows="5"></textarea>
+                                
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="controls">
+
+                                <button type="submit" class="btn btn-small btn-success">Send</button>
+                               
+                            </div>
+                        </div>
+                    </form>
+            </div>
+        </div>
+
+    </div>
+    <!--/.content-->
+</div>
+
+   
+    
+    {% endblock %}

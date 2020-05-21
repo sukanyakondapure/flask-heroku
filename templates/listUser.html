@@ -1,0 +1,62 @@
+{% extends 'layouts/base.html'%}
+{% block content %}
+<div class="span9">
+    <div class="content">
+
+        <div class="module">
+            <div class="module-head">
+                <h3>Tables</h3>
+                <a href="/addUserForm" class="btn btn-small btn-primary" style="float: right; margin-top: -23px;">Add
+                    User</a>
+            </div>
+            <div class="module-body">
+                <p>
+                    <!--
+                    <strong>Default</strong>
+                    -
+                   <small>table class="table"</small> -->
+                </p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                     {%for user in users %}
+                <tr>
+                <td>{{user.id}}</td>
+                <td>{{user.name}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.mobile}}</td>
+                <td>
+                    <a href="{{url_for('edituser',id=user.id)}}" class="btn btn-primary ">Edit</a>
+                </td>
+                <td>
+                <form method="POST" action="{{url_for('deleteuser',id=user.id)}}" accept-charset="UTF-8" style="display:inline">
+                    <input class="btn btn-mini btn-danger user_delete_alert" type="submit" value="Delete" title="Delete User">
+                </form>
+                </td>
+               
+                {%endfor%}
+                        </tr>
+
+
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+    <!--/.content-->
+    <!--/.content-->
+</div>
+{% endblock %}

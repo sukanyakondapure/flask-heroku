@@ -1,0 +1,40 @@
+{% extends 'layouts/base.html'%}
+{% block content %}
+<div class="span9">
+    <div class="content">
+
+        <div class="module">
+            <div class="module-head">
+                <h3>Add User</h3>
+                <a href="/listuser" class="btn btn-small btn-primary" style="float: right; margin-top: -23px;">List
+                    Users</a>
+            </div>
+            <div class="module-body">
+
+                
+
+                <form action="/uploadfile" method="POST" enctype="multipart/form-data">
+                    <div class="control-group">
+                        <div class="controls">
+                            <input type="file" name="inputFile" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <input type="submit" />
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <form action="/download" method="POST">
+                <div class="control-group">
+                    <div class="controls">
+                        <input type="submit" class="btn btn-dark" value="Download">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        {% endblock %}
